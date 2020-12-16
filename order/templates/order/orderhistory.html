@@ -1,0 +1,76 @@
+{% extends 'order/profilebase.html' %}
+{% load humanize %}
+{% load static %}
+{% block sidebar %}
+    <a class="list-group-item" href="{% url 'order:profilePage' %}"> Your Profile </a>
+    <a class="list-group-item active" href="{% url 'order:orderHistoryPage' %}"> My order history </a>
+    <a class="list-group-item" href="{% url 'order:transactionsPage' %}"> Transactions </a>
+    <a class="list-group-item" href="#"> Return and refunds </a>
+    <a class="list-group-item" href="#">Settings </a>
+    <a class="list-group-item" href="#"> My Selling Items </a>
+    <a class="list-group-item" href="#"> Received orders </a>
+{% endblock sidebar %}
+{% block sidecontent %}
+    {% if not orders %}
+    <article class="card mb-3">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="text-muted">You haven't purchased anything yet...</h3>
+                </div>
+            </div>
+        </div>
+    </article>
+    {% else %}
+    {% for order in orders %}
+        <article class="card mb-3">
+        <header class="card-header">
+            <strong class="d-inline-block mr-3">Order ID: {{ order.orderID }}</strong>
+            <span>Order Date: {{ order.timeStamp | naturalday:'d F Y' | capfirst}}</span>
+        </header>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-8">
+                    <h6 class="text-muted">Delivery to</h6>
+                    <p>{{ order.customer }} <br>
+                    Phone +{{ order.customer.userPhone }} Email: {{ order.customer.userEmail }} <br>
+                    Location: Home number, Building name, Street 123,  Tashkent, UZB <br>
+                    P.O. Box: 100123
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="text-muted">Payment</h6>
+                    <span class="text-success">
+                        <i class="fab fa-lg fa-cc-visa"></i>
+                        Visa  **** 4216
+                    </span>
+                    <p>Subtotal: &#x20B9 {{ order.get_order_total | intcomma }} <br>
+                     Shipping fee:  &#x20B9 00 <br>
+                     <span class="b">Total:  &#x20B9 {{ order.get_order_total | intcomma }} </span>
+                    </p>
+                </div>
+            </div> <!-- row.// -->
+        </div> <!-- card-body .// -->
+        <div class="table-responsive">
+        <table class="table table-hover">
+            <tbody>
+            {% for item in order.orderitem_set.all %}
+                <tr>
+                    <td width="65">
+                        <img src="{{ item.product.productImage.url }}" class="img-xs border">
+                    </td>
+                    <td>
+                        <p class="title mb-0">{{ item.product.productName }}</p>
+                        <var class="price text-muted">&#x20B9 {{ item.savedProductPrice }} x {{ item.quantity }} = &#x20B9 {{ item.get_saved_orderItem_total | intcomma }}</var>
+                    </td>
+                    <td> Seller <br> Samsung Electronics </td>
+                    <td width="250"> <a href="#" class="btn btn-outline-primary">Track order</a> <a href="{% url 'home:productDetailsPage' %}?product_id={{ item.product.productID }}" class="btn btn-light"> Details </a> </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div> <!-- table-responsive .end// -->
+    </article>
+    {% endfor %}
+    {% endif %}
+{% endblock sidecontent %}

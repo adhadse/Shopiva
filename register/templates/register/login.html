@@ -1,0 +1,131 @@
+{% extends 'register/loginmain.html' %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+    <div class="row" xmlns="http://www.w3.org/1999/html">
+        <div class="col-md-6 mt-5 ml-8">
+            <div class="card shadow-lg">
+                <article class="list-group" id="collapselist">
+                    <article class="list-group-item">
+                                <header class="filter-header">
+                                    <a href="" data-toggle="collapse"  data-target="#collapse1" aria-expanded="false" class="collapsed" >
+                                        <i class="icon-control fa fa-chevron-down"></i>
+                                        <h3 class="title">Sign Up</h3>
+                                    </a>
+                                </header>
+                                <div class="filter-content collapse" data-parent="#collapselist"  id="collapse1">
+                                    <form class="block-register" method="POST">
+                                        {% csrf_token %}
+                                        <div class="form-group form-row">
+                                            <label class="col md-3 col-form-label">I am a</label>
+                                            <div class="col-sm-9 pt-1">
+                                                <label class="custom-control custom-radio custom-control-inline">
+                                                    <input class="custom-control-input" checked="" type="radio" name="account_type" value="Buyer">
+                                                    <span class="custom-control-label"> Buyer </span>
+                                                </label>
+                                                <label class="custom-control custom-radio custom-control-inline">
+                                                    <input class="custom-control-input" checked="" type="radio" name="account_type" value="Seller">
+                                                    <span class="custom-control-label"> Seller </span>
+                                                </label>
+                                                <label class="custom-control custom-radio custom-control-inline">
+                                                    <input class="custom-control-input" checked="" type="radio" name="account_type" value="Both">
+                                                    <span class="custom-control-label"> Both </span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group form-row">
+                                            <label class="col-md-3 col-form-label">Full Name</label>
+                                            <div class="col">
+                                                {{ signup_form.first_name | as_crispy_field }}
+                                            </div>
+                                            <div class="col">
+                                                {{ signup_form.last_name | as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group form-row">
+                                            <div class="col-md-3 col-form-label">Email</div>
+                                            <div class="col-sm-9">
+                                                {{ signup_form.userEmail | as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group form-row">
+                                            <div class="col-md-3 col-form-label">Phone</div>
+                                            <div class="col-sm-9">
+                                                {{ signup_form.userPhone | as_crispy_field}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group form-row">
+                                            <label class="col-md-3 col-form-label">Password</label>
+                                            <div class="col-sm-6">
+                                                {{ signup_form.password1 | as_crispy_field }}
+                                                {{ signup_form.password2 | as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group form-row">
+                                            <div class="col-sm-9 offset-sm-3">
+                                                <label class="custom-control custom-checkbox">
+                                                  <input type="checkbox" class="custom-control-input" id="customCheck1" required>
+                                                  <div class="custom-control-label" for="customCheck1">I agree with <a href="#" target="_blank">terms and conditions</a></div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-row mb-2">
+                                            <div class="col-sm-9 offset-sm-3">
+                                                <button type="submit" value="Sign Up" class="btn btn-primary">Sign Up</button>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                        </article>
+
+                    <article class="list-group-item">
+                        <header class="filter-header">
+                            <a href="" data-toggle="collapse"  data-target="#collapse2" aria-expanded="false" class="collapsed">
+                                <i class="icon-control fa fa-chevron-down"></i>
+                                <h3 class="title">Sign In</h3>
+                            </a>
+                        </header>
+                        <div class="filter-content collapse {% if requires_signin %}show{% endif %}" data-parent="#collapselist" id="collapse2">
+                                <form class="block-register" method="POST" action="{% url 'register:signinPage' %}">
+                                    {% csrf_token %}
+                                    <div class="form-group form-row">
+                                            <div class="col-md-3 col-form-label">Email</div>
+                                            <div class="col-sm-9">
+                                                <input type="email" name="userEmail" value="" class="form-control" placeholder="johndoe@gmail.com"/>
+                                            </div>
+                                        </div>
+                                    <div class="form-group form-row">
+                                    <div class="col-md-3 col-form-label">Password</div>
+                                    <div class="col-sm-9">
+                                        <input type="password" name="password" value="" class="form-control" placeholder="****"/>
+                                    </div>
+                                </div>
+                                    <div class="form-group form-row"></div>
+                                    <div class="form-group form-row">
+                                        <div class="col-sm-9 offset-sm-3">
+                                            <label class="custom-control custom-checkbox">
+                                              <input type="checkbox" class="custom-control-input" id="customCheck2">
+                                              <div class="custom-control-label" for="customCheck1">Remember</div>
+                                            </label>
+                                        </div>
+                                     </div>
+                                    <div class="form-row mb-2">
+                                        <div class="col-sm-9 offset-sm-3">
+                                            <button type="submit" value="Sign In" class="btn btn-primary">Login</button>
+                                        </div>
+                                    </div>
+                                </form>
+                        </div>
+                    </article>
+                </article>
+            </div>
+        </div>
+
+        <aside class="col-md-4 text-center loginlogo">
+            <img src="{% static 'images/default-monochrome-white.svg' %}">
+        </aside>
+    </div>
+{% endblock %}

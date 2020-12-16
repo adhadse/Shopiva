@@ -1,0 +1,42 @@
+{% extends 'home/homemain.html' %}
+{% load static %}
+{% load home_filter %}
+{% load humanize %}
+{% block content %}
+{% include 'home/navbar.html' %}
+    <div class="container" style="position: relative;margin-top: 100px;" xmlns="http://www.w3.org/1999/html">
+        <article class="card">
+            <header class="card-header"> My wishlist </header>
+            <div class="card-body">
+                <div class="row">
+
+                    {% for item in wishlist.get_all_items %}
+                    <div class="col-md-4" id="{{ item.product.productID }}">
+                        <figure class="itemside mb-4">
+                            <div class="aside"><img src="{{ item.product.productImage.url }}" class="border img-md"></div>
+                            <figcaption class="info">
+                                <a href="{% url 'home:productDetailsPage' %}?product_id={{ item.product.productID  }}" class="title">{{ item.product.productName }}</a>
+
+                                {% if item.product.productPrice < item.savedProductPrice %}
+                                    <p class="price"> &#x20B9 {{ item.product.productPrice | intcomma }}</p>
+                                    <p>You save <span class="text-success">&#x20B9 {{ item.savedProductPrice|subtract:item.product.productPrice | intcomma }}</span></p>
+                                    <p class="price text-muted text-nowrap mb2">Was &#x20B9 {{ item.savedProductPrice | intcomma }} when saved.</p>
+                                    {% else %}
+                                    <p class="price mb-2">&#x20B9 {{ item.product.productPrice | intcomma }}</p>
+                                {% endif %}
+                                <button type="button" class="btn btn-primary btn-sm update-wishlist" data-action="add_to_cart" data-product="{{ item.product.productID }}"> Add to cart </button>
+                                <button type="button" class="btn btn-danger btn-sm update-wishlist" data-action="delete" data-product="{{ item.product.productID }}"><i class="fa fa-times"></i> </button>
+                            </figcaption>
+                        </figure>
+                    </div> <!-- col.// -->
+               {% endfor %}
+
+                </div>
+            </div> <!-- card-body.// -->
+        </article>
+    </div>
+{% endblock content %}
+
+{% block js %}
+     <script src="{% static 'js/wishlist.js' %}" type="text/javascript"></script>
+{% endblock %}

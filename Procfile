@@ -1,0 +1,1 @@
+web: gunicorn Shopiva.wsgi --log-file - 

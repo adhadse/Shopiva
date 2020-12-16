@@ -1,0 +1,42 @@
+body {
+    background-image: linear-gradient(to right, #E56500 5%, #EBC51D);
+	display: flex;
+	justify-content: center;
+	align-items: stretch;
+	flex-direction: column;
+	font-family: 'Montserrat',Inter, sans-serif;
+	height: 100vh;
+	margin: -20px 0 50px;
+}
+
+.loginlogo img {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding: 5vh 5vh 0 5vh;
+	margin: 0 0 0 0 ;
+}
+
+.filter-header a{
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+    font-family: "Aganè S";
+}
+.filter-content h2{
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+    font-family: "Aganè S";
+}
+.filter-header h3{
+    padding: 1.2rem;
+}
+.block-register {
+    margin: 1rem;
+    /*padding: 0px;*/
+    /**/padding: 4rem 3rem 4rem 3rem;
+}
+
+
+

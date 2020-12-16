@@ -1,0 +1,110 @@
+{% extends 'order/cartmain.html' %}
+{% load humanize %}
+{% block content %}
+    <section class="section-content padding-y bg" style="background-color: #f8f9fa; margin-top: 65px">
+        <div class="container">
+
+                <div class="row" >
+                    <main class="col-md-8 mb-5 border"  style="border-radius: 4px;background-color: white">
+                    <h4 class="card-title mt-3">Review cart</h4>
+                        {% for item in items %}
+                            <div class="col card-body border-bottom" id="{{ item.product.productID }}">
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <figure class="itemside">
+                                            <div class="aside">
+                                                <img src="{{ item.product.productImage.url }}" class="border img-sm">
+                                            </div>
+                                            <figcaption class="info">
+                                                <a href="{% url 'home:productDetailsPage' %}?product_id={{ item.product.productID  }}" class="title">{{ item.product.productName }}</a>
+                                                <strong class>&#x20B9;{{ item.get_total | intcomma}}</strong>
+                                                <div>
+                                                    <a href="#" class="btn-link mr-2">Save for later</a>
+                                                    <a href="#" class="btn-link text-danger update-cart" data-product="{{ item.product.productID }}" data-action="delete">Delete</a>
+                                                </div>
+                                            </figcaption>
+                                        </figure>
+                                    </div>
+                                    <div class="col-md-5 text-md-right text-right">
+                                        <div class="input-group input-spinner">
+                                            <div class="input-group-prepend">
+                                                <button class="btn btn-light update-cart" type="button" id="button-plus" data-product="{{ item.product.productID }}" data-action="remove">
+                                                    <i class="fa fa-minus"></i>
+                                                </button>
+                                            </div>
+                                            <input type="text" class="form-control" data-product="{{ item.product.productID }}" value="{{ item.quantity }}">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-light update-cart" type="button" id="button-minus" data-product="{{ item.product.productID }}" data-action="add">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    <article class="card-body border-top">
+                        <dl class="row">
+                            <dt class="col-sm-10">
+                                Subtotal: <span class="float-right text-muted">{{ cart.get_cartitems_quantity }} items</span>
+                            </dt>
+                            <dd class="col-sm-2 text-right"><strong>&#x20B9;{{ cart.get_cart_total | intcomma}}</strong></dd>
+                            <dt class="col-sm-10">
+                                Discount: <span class="float-right text-muted">0% offer</span>
+                            </dt>
+                            <dd class="col-sm-2 text-right text-danger"><strong>&#x20B9;00</strong></dd>
+                            <dt class="col-sm-10">
+                                Delivery Charge: <span class="float-right text-muted">Express delivery</span>
+                            </dt>
+                            <dd class="col-sm-2 text-right"><strong>&#x20B9;0</strong></dd>
+                            <dt class="col-sm-10">Total:</dt>
+                            <dd class="col-sm-2 text-right"><strong class="h5 text-dark">&#x20B9;{{ cart.get_cart_total | intcomma }}</strong></dd>
+                        </dl>
+                    </article>
+                  </main>
+                    <aside class="col-md-4">
+                        <div class="card pr-0 pl-0">
+                            <div class="card-body shadow">
+                            <h4 class="mb-3">Overview</h4>
+                            <dl class="dlist-align">
+                                <dt class="text-muted">Delivery:</dt>
+                                <dd>Pick-up</dd>
+                            </dl>
+                            <dl class="dlist-align">
+                                <dt class="text-muted">Delivery type:</dt>
+                                <dd>Standard</dd>
+                            </dl>
+                            <dl class="dlist-align">
+                                <dt class="text-muted">Payment method:</dt>
+                                <dd>Cash</dd>
+                            </dl>
+                            <hr>
+                            <dl class="dlist-align">
+                                <dt class="text-muted">Total</dt>
+                                <dd class="h5">&#x20B9;{{ cart.get_cart_total | intcomma}}</dd>
+                            </dl>
+                            <hr>
+                            <p class="small mb-3 text-muted">By clicking you are agree with terms of condition </p>
+                            <a href="{% url 'order:cartToOrderRedirect' %}"><button class="btn btn-block {% if request.user.is_authenticated %}btn-primary{% endif %}" {% if not request.user.is_authenticated or not cart.get_cartitems_quantity %}disabled{% endif %}>Checkout</button></a>
+                        </div>
+                        </div>
+                        <div class="card card-body mt-4">
+                            <form>
+                                <div class="form-group">
+                                    <label>Have coupon?</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Coupon code">
+                                        <span class="input-group-append">
+                                            <button class="btn {% if request.user.is_authenticated %}btn-primary{% endif %}" {% if not request.user.is_authenticated or not cart.get_cartitems_quantity %}disabled{% endif %}>Apply</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </aside>
+                </div>
+
+        </div>
+    </section>
+{% endblock %}

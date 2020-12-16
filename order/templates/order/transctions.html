@@ -1,0 +1,74 @@
+{% extends 'order/profilebase.html' %}
+{% load static %}
+{% load humanize %}
+{% block sidebar %}
+    <a class="list-group-item" href="{% url 'order:profilePage' %}"> Your Profile </a>
+    <a class="list-group-item" href="{% url 'order:orderHistoryPage' %}"> My order history </a>
+    <a class="list-group-item active" href="{% url 'order:transactionsPage' %}"> Transactions </a>
+    <a class="list-group-item" href="#"> Return and refunds </a>
+    <a class="list-group-item" href="#">Settings </a>
+    <a class="list-group-item" href="#"> My Selling Items </a>
+    <a class="list-group-item" href="#"> Received orders </a>
+{% endblock sidebar %}
+{% block sidecontent %}
+    {% if not orders %}
+    <article class="card mb-3">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="text-muted">No Orders means No Transactions...</h3>
+                </div>
+            </div>
+        </div>
+    </article>
+    {% else %}
+    {% for order in orders  %}
+    <article class="card order-group mb-3">
+        <header class="card-header">
+            <b class="d-inline-block mr-3">Transaction ID: {{ order.transactionID }}</b>
+            <span>Date: {{ order.timeStamp | naturalday:'d F Y' | capfirst }}</span>
+        </header>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <h6 class="text-muted">Payment</h6>
+                    <span class="text-success">
+                        <i class="fab fa-lg fa-cc-visa"></i>
+                        Visa  **** 4216
+                    </span>
+
+                    <p>Subtotal: &#x20B9 {{ order.get_order_total | intcomma }} <br>
+                     Shipping fee:  &#x20B9 00 <br>
+                     <span class="b">Total:  &#x20B9 {{ order.get_order_total | intcomma}} </span>
+                    </p>
+
+                </div>
+                <div class="col-md-4">
+                    <h6 class="text-muted">Contact</h6>
+                    <p>{{ order.customer }} <br> +{{ order.customer.userPhone }} <br> {{ order.customer.userEmail }}</p>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="text-muted">Shipping address</h6>
+                    <p> Home 123, Building name, Street abcd,  Tashkent Uzbekistan  </p>
+                </div>
+            </div> <!-- row.// -->
+            <hr>
+            <ul class="row">
+            <!-- Iterate over all items in order -->
+                {% for item in order.orderitem_set.all %}
+                <li class="col-md-4">
+                    <figure class="itemside  mb-3">
+                        <div class="aside"><img src="{{ item.product.productImage.url }}" class="img-sm border"></div>
+                        <figcaption class="info align-self-center">
+                            <p class="title">{{ item.product.productName }}</p>
+                            <span class="text-muted text-nowrap">&#x20B9 {{ item.savedProductPrice }} x {{ item.quantity }} = &#x20B9 {{ item.get_saved_orderItem_total | intcomma }}</span>
+                        </figcaption>
+                    </figure>
+                </li>
+                {% endfor %}
+            </ul>
+        </div> <!-- card-body .// -->
+    </article>
+    {% endfor %}
+    {% endif %}
+{% endblock sidecontent %}

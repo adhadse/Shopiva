@@ -1,0 +1,58 @@
+{% extends 'order/cartmain.html' %}
+{% load static %}
+{% block content %}
+    <section class="section-content padding-y bg" style="background-color: #f8f9fa; margin-top: 65px">
+        <div class="container">
+            <div class="row">
+                <aside class="col-md-3">
+                    <!--   SIDEBAR   -->
+                    <ul class="list-group">
+                        {% block sidebar %}
+                            <a class="list-group-item active" href="{% url 'order:profilePage' %}"> Your Profile </a>
+                            <a class="list-group-item" href="{% url 'order:orderHistoryPage' %}"> My order history </a>
+                            <a class="list-group-item" href="{% url 'order:transactionsPage' %}"> Transactions </a>
+                            <a class="list-group-item" href="#"> Return and refunds </a>
+                            <a class="list-group-item" href="#">Settings </a>
+                            <a class="list-group-item" href="#"> My Selling Items </a>
+                            <a class="list-group-item" href="#"> Received orders </a>
+                        {% endblock sidebar %}
+                    </ul>
+                    <br>
+                    <a class="btn btn-light btn-block" href="{% url 'register:logoutPage' %}"> <i class="fa fa-power-off"></i> <span class="text">Log out</span> </a>
+                    <!--   SIDEBAR .//END   -->
+                </aside>
+                <main class="col-md-9">
+                    {% block sidecontent %}
+                        <article class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <img src="{% if request.user.userImage %}{{ request.user.userImage.url }}{% else %}{% static 'images/profile.jpg' %}{% endif %}" class="img-md icon rounded-circle">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <table class="table table-borderless table-hover">
+                                            <tbody>
+                                            <tr>
+                                                <th scope="row"><strong>Your Name</strong></th>
+                                                <td>{{ request.user }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row"><strong>Your Phone Number</strong></th>
+                                                <td>{%  if request.user.userPhone %}{{ request.user.userPhone}}{% else %}-{% endif %}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row"><strong>Your Phone Email</strong></th>
+                                                <td>{{ request.user.userEmail}}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    {% endblock sidecontent %}
+                </main>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

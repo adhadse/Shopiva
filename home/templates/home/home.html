@@ -1,0 +1,12 @@
+{% extends 'home/homemain.html' %}
+{% load static %}
+
+{% block content %}
+    {% include 'home/navbar.html' %}
+    {% include 'home/carousal.html' %}
+    {% include 'home/card.html' %}
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/homecart.js' %}" type="text/javascript"></script>
+{% endblock %}
