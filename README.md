@@ -1,5 +1,6 @@
 # Shopiva : Django personalized Ecommerce website
-ML Based Ecommerce site 
+ML Based Ecommerce site.
+Visit: [Heroku](https://shopiva.herokuapp.com/)
 ## Features:
 - [X] Customer can create account and sign In 
 - [X] A completed product catalog page
