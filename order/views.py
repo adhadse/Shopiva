@@ -1,7 +1,7 @@
-from django.db.models import F
+from django.db.models import F, Subquery, OuterRef
 from django.shortcuts import render, redirect
 
-from .models import *
+from order.models import *
 from home.models import *
 
 
@@ -36,22 +36,19 @@ def profile_view(request):
 
 
 def convert_cart_to_order(request):
+    # TODO: REUSE CODE BY USING FUNCTION
     if request.user.is_authenticated:
         customer = request.user
         try:
             # find the cart
             cart = Orders.objects.get(customer=customer, status='In Cart')
-            print(cart)
             cart.status = 'Delivered'
 
             # TODO: BULK SAVE THE PRODUCT PRICE FOR ALL CART ITEMS
-            # TODO: REUSE CODE BY USING FUNCTION
-            # cart.orderitem_set.all().update(savedProductPrice = F(''))
-            for cartItem in cart.orderitem_set.all().iterator():
-                print(cartItem.product.productPrice)
-                cartItem.savedProductPrice = cartItem.product.productPrice
-                cartItem.save()
-
+            cart.orderitem_set.all().update(savedProductPrice = F(''))
+            # for cartItem in cart.orderitem_set.all().iterator():
+            #     cartItem.savedProductPrice = cartItem.product.productPrice
+            #     # cartItem.save(commit= False)
             cart.transactionID = uuid.uuid4()
             cart.save()
         except Orders.DoesNotExist:

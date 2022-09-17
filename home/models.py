@@ -241,7 +241,7 @@ class Ratings(models.Model):
 
 
 class Attributes(models.Model):
-    productID = models.ForeignKey(Products, on_delete=models.SET_NULL, null=True)
+    productID = models.OneToOneField(Products, primary_key=True, default=uuid.uuid4(), on_delete=models.CASCADE)
     bulletin1 = models.CharField(null=True, blank=True, max_length=64)
     bulletin2 = models.CharField(null=True, blank=True, max_length=64)
     bulletin3 = models.CharField(null=True, blank=True, max_length=64)

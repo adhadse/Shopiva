@@ -13,7 +13,6 @@ from home.models import Customers, Products, Ratings, Wishlist
 from order.models import Orders, OrderItem
 
 
-# Create your views here.
 # decorator does it that it checks the API request
 # method to see if it’s a GET request being made,
 # if it’s not a GET request then you won’t be able to access this function.
@@ -111,7 +110,6 @@ def updateItem(request):
                                      'cartQuantity': cart.get_cartitems_quantity,
                                      'cartTotal': cart.get_cart_total})
         elif action == 'delete':
-            cartItem.quantity = 0
             cartItem.delete()
             return JsonResponse({'Deleted': True,
                                  'cartItemTotal': cartItem.get_total,

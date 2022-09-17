@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'crispy_forms',
     'serverapi.apps.ServerapiConfig',
-    'compressor',
     'home',
     'order',
     'register',
@@ -158,7 +157,6 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'compressor.finders.CompressorFinder',
 )
 COMPRESS_ENABLED = True
 COMPRESS_ROOT = STATIC_ROOT
